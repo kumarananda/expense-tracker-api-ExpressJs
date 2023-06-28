@@ -13,19 +13,11 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config()
 const app = require('./app');
+const { mongoDBConnect } = require('./config/db');
 
 const DB = process.env.MONGO
 
 
-// create a mongoDB connection
-const mongoDBConnect = async() => {
-    try {
-        const connect = await mongoose.connect(DB);
-        console.log(`mongonDB connection set successfully HOST : ${ connect.connection.host }`.yellow);
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 const port =  5000;
 const server = app.listen(port, () => {

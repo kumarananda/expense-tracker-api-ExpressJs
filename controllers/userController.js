@@ -1,4 +1,5 @@
 
+const { mongoDBConnect } = require("../config/db");
 const User = require("../models/userModel");
 const createError = require("../utility/createError");
 const { getBearerToken } = require("../utility/getBearerToken");
@@ -8,7 +9,8 @@ const { validateEmail } = require("../utility/validate");
 
 // get all users
 const getAllUsers = async (req, res, next) => {
-
+    mongoDBConnect()
+    
     const users = await User.find()
 
     res.status(200).send({users})
