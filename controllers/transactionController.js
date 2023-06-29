@@ -18,16 +18,24 @@ const createTransaction = async (req, res, next) => {
         
         if(!transDate) return next(createError(404, "Select transaction date"));
         
+
+        let transData;
         if(transType=== "Expense") {
-            if(!expense_cat) return next(createError(404, "Select expense category"));
+            if(!expense_cat) {
+                return next(createError(404, "Select expense category")); 
+            }else {
+                transData = {userId:id, amount, transType, transDate, expense_cat }
+            }
             
         }else if(transType === "Income"){
-            if(!income_type) return next(createError(404, "Select income type"));
+            if(!income_type){
+                return next(createError(404, "Select income type"));
+            }else{
+                transData = {userId:id, amount, transType,  transDate, income_type }
+            }
         }
 
-        const transaction = await Transaction.create(
-            {userId:id, amount, transType, category, transDate, income_type, expense_cat }
-        );
+        const transaction = await Transaction.create(transData);
 
         if(!transaction)
             return next(createError(404, "Transaction add faild"));
