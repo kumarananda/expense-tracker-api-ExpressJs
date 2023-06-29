@@ -9,7 +9,7 @@ const { validateEmail } = require("../utility/validate");
 
 // get all users
 const getAllUsers = async (req, res, next) => {
-    // mongoDBConnect()
+    mongoDBConnect()
     
     const users = await User.find()
 
