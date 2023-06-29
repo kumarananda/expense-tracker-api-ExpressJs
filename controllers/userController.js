@@ -2,16 +2,19 @@
 const { mongoDBConnect } = require("../config/db");
 const User = require("../models/userModel");
 const createError = require("../utility/createError");
-const { getBearerToken } = require("../utility/getBearerToken");
 const { verifyPassword, hashPassword } = require("../utility/hash");
-const { tokenVerify, createJwtToken } = require("../utility/token");
+const {  createJwtToken } = require("../utility/token");
 const { validateEmail } = require("../utility/validate");
 
 // get all users
 const getAllUsers = async (req, res, next) => {
-    mongoDBConnect()
+     await mongoDBConnect()
     
     const users = await User.find()
+
+    if(!users){
+        next(createError(400, "User not found"))
+    }
 
     res.status(200).send({users})
 }
@@ -26,7 +29,7 @@ const getAllUsers = async (req, res, next) => {
  * @returns 
  */
 const getSingleUser = async (req, res, next) => {
-    mongoDBConnect()
+     await mongoDBConnect()
 
 
     try {
@@ -64,7 +67,7 @@ const getSingleUser = async (req, res, next) => {
  * @returns 
  */
 const userLogin = async (req, res, next) => {
-    mongoDBConnect()
+     await mongoDBConnect()
 
 
     try {
@@ -123,7 +126,7 @@ const userLogin = async (req, res, next) => {
  */
 
 const registerUser = async (req, res, next) => {
-    mongoDBConnect()
+     await mongoDBConnect()
 
 
     try {
@@ -192,7 +195,7 @@ const registerUser = async (req, res, next) => {
  * @returns 
  */
 const addNewExpCat = async (req, res, next) => {
-    mongoDBConnect()
+     await mongoDBConnect()
 
 
     try {

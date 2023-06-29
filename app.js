@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors');
 const errorHandler  = require('./middlewares/errorHandler');
 const userRoute = require('./routes/userRoute')
+const userTransaction = require('./routes/userTransaction')
 
 
 const app = express()
@@ -24,6 +25,7 @@ const router = express.Router();
 
 // api router
 app.use('/api/user', userRoute)
+app.use('/api/transaction', userTransaction)
 
 app.get("/", (req, res) => {
     res.send("welcome")
