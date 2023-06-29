@@ -3,7 +3,14 @@ const Transaction = require("../models/transctionModel");
 const createError = require("../utility/createError");
 
 
-
+/**
+ * @method POST 
+ * @url /api/transaction
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const createTransaction = async (req, res, next) => {
     await mongoDBConnect()
 
@@ -49,6 +56,13 @@ const createTransaction = async (req, res, next) => {
 
 }
 
+/**
+ * @method PATCH 
+ * @url /api/transaction
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 const getAllTransactions = async (req, res, next) => {
     await mongoDBConnect()
 
@@ -68,7 +82,14 @@ const getAllTransactions = async (req, res, next) => {
 
 }
 
-
+/**
+ * @method GET
+ * @url /api/transaction/:id
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const getUserTransactions = async (req, res, next) => {
     await mongoDBConnect()
 
@@ -89,6 +110,14 @@ const getUserTransactions = async (req, res, next) => {
 
 }
 
+/**
+ * @method GET 
+ * @url /api/transaction/:id/:transId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const getUserSingleTransaction = async (req, res, next) => {
     await mongoDBConnect()
 
@@ -109,7 +138,14 @@ const getUserSingleTransaction = async (req, res, next) => {
 
 }
 
-
+/**
+ * @method PATCH 
+ * @url /api/transaction/:id/:transId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const updateUserSingleTransaction = async (req, res, next) => {
     await mongoDBConnect()
 
@@ -131,6 +167,14 @@ const updateUserSingleTransaction = async (req, res, next) => {
 
 }
 
+/**
+ * @method DELETE 
+ * @url /api/transaction/:id/:transId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const deleteUserSingleTransaction = async (req, res, next) => {
     await mongoDBConnect()
 
@@ -138,8 +182,7 @@ const deleteUserSingleTransaction = async (req, res, next) => {
 
     try {
         const transaction = await Transaction.findByIdAndDelete(trensId )
-        // const transaction = await Transaction.findById(trensId )
-        
+            
         if(!transaction ) return next(createError(404, "Transaction not found"));
 
         // 
@@ -150,15 +193,6 @@ const deleteUserSingleTransaction = async (req, res, next) => {
     }
 
 }
-
-
-
-
-
-
-
-
-
 
 
 module.exports = { 

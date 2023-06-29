@@ -6,7 +6,18 @@ const { verifyPassword, hashPassword } = require("../utility/hash");
 const {  createJwtToken } = require("../utility/token");
 const { validateEmail } = require("../utility/validate");
 
+
+
+
+
 // get all users
+/**
+ * @method PATCH 
+ * @url /api/user/
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 const getAllUsers = async (req, res, next) => {
      await mongoDBConnect()
     
@@ -20,10 +31,10 @@ const getAllUsers = async (req, res, next) => {
 }
 
 
-
 /**
- * /api/user/:id & header
- * @param {GET} req 
+ * @method GET 
+ * @url /api/user/:id 
+ * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  * @returns 
@@ -60,8 +71,10 @@ const getSingleUser = async (req, res, next) => {
 
 }
 /**
- * /api/user/login 
- * @method {POST} req 
+ * 
+ * @method POST 
+ * @url /api/user/login 
+ * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  * @returns 
@@ -118,7 +131,8 @@ const userLogin = async (req, res, next) => {
 
 
 /**
- * 
+ * @method POST 
+ * @url /api/transaction/:id  //( id= user id)
  * @param {*} req Post
  * @param {*} res 
  * @param {*} next 
@@ -133,7 +147,6 @@ const registerUser = async (req, res, next) => {
 
         console.log(req.body);
         const {name , email, password } = req.body
-
         
         if(!email) throw new Error("Plseae enter email")
         if(!name) throw new Error("Plseae enter your name")
@@ -148,7 +161,6 @@ const registerUser = async (req, res, next) => {
             if(dup) throw new Error("Email already exists")
         }
         
-
         // default cats,
         const categories = ["House Rent", "Water Bill", "Electric Bill", "Groceries", "Uber", "Medications" ];
 
@@ -161,13 +173,10 @@ const registerUser = async (req, res, next) => {
 
         if(!createUser?._id) throw new Error("Network Error")
 
-
         const token = createJwtToken({id : createUser._id, isAdmin : createUser.isAdmin });
 
         // skip some keys
         const {...user} = createUser._doc;
-
-
 
         const ExpireInMin = 60*24;
         if(user){
@@ -188,8 +197,9 @@ const registerUser = async (req, res, next) => {
 }
 
 /**
- * /api/user/cate-update/:id
- * @param {GET} req 
+ *  * @method PATCH 
+ * @url /api/user/cate-update/:id
+ * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  * @returns 
