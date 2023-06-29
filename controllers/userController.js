@@ -26,6 +26,8 @@ const getAllUsers = async (req, res, next) => {
  * @returns 
  */
 const getSingleUser = async (req, res, next) => {
+    mongoDBConnect()
+
 
     try {
         const {id} = req.params;
@@ -62,6 +64,8 @@ const getSingleUser = async (req, res, next) => {
  * @returns 
  */
 const userLogin = async (req, res, next) => {
+    mongoDBConnect()
+
 
     try {
         const {email, password: pass } = req.body;
@@ -119,6 +123,8 @@ const userLogin = async (req, res, next) => {
  */
 
 const registerUser = async (req, res, next) => {
+    mongoDBConnect()
+
 
     try {
 
@@ -186,6 +192,8 @@ const registerUser = async (req, res, next) => {
  * @returns 
  */
 const addNewExpCat = async (req, res, next) => {
+    mongoDBConnect()
+
 
     try {
         const {id} = req.params;
