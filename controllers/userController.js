@@ -182,7 +182,6 @@ const registerUser = async (req, res, next) => {
         // const ExpireInMin = 60*24;
         if(user){
             res.status(200)
-            // .cookie('accessToken', token, { expires: new Date(Date.now() + 1000*60* ExpireInMin)})
             .json(
                 {
                     message: "User created successful",
@@ -243,17 +242,23 @@ const addNewExpCat = async (req, res, next) => {
             return next(createError(404, "Data Update Faild"))
         }
 
+        
+        const token = createJwtToken({id : updateUser._id, isAdmin : updateUser.isAdmin });
+
         // skip some keys
-        const {password, ...user} = updateUser._doc;
+        const { ...user} = updateUser._doc;
 
 
-        res.status(200)
-        .json(
-            {
-                message: "Category successful",
-                user 
-            }
-        )
+        if(updateUser){
+            res.status(200)
+            .json(
+                {
+                    message: "User created successful",
+                    user, 
+                    accessToken : token
+                }
+            )
+        }
      
 
     } catch (error) {
