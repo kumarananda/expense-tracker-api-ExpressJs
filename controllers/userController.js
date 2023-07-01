@@ -3,7 +3,7 @@ const { mongoDBConnect } = require("../config/db");
 const User = require("../models/userModel");
 const createError = require("../utility/createError");
 const { verifyPassword, hashPassword } = require("../utility/hash");
-const {  createJwtToken } = require("../utility/token");
+const {  createJwtToken, tokenVerify } = require("../utility/token");
 const { validateEmail } = require("../utility/validate");
 
 
@@ -111,14 +111,15 @@ const userLogin = async (req, res, next) => {
 
 
 
-        const ExpireInMin = 60*24;
+        // const ExpireInMin = 60*24;
         if(user){
             res.status(200)
-            .cookie('accessToken', token, { expires: new Date(Date.now() + 1000*60* ExpireInMin)})
+            // .cookie('accessToken', token, { expires: new Date(Date.now() + 1000*60* ExpireInMin)})
             .json(
                 {
                     message: "User get successful",
-                    user 
+                    user,
+                    accessToken : token
                 }
             )
         }
@@ -162,7 +163,7 @@ const registerUser = async (req, res, next) => {
         }
         
         // default cats,
-        const categories = ["House Rent", "Water Bill", "Electric Bill", "Groceries", "Uber", "Medications" ];
+        const categories = ["House Rent", "Water Bill", "Electric Bill", "Groceries", "Uber", "Medications", "Paid Loan" ];
 
         const hash = hashPassword(password)
         const newData = {name , email, password: hash, categories:categories};
@@ -178,14 +179,15 @@ const registerUser = async (req, res, next) => {
         // skip some keys
         const {...user} = createUser._doc;
 
-        const ExpireInMin = 60*24;
+        // const ExpireInMin = 60*24;
         if(user){
             res.status(200)
-            .cookie('accessToken', token, { expires: new Date(Date.now() + 1000*60* ExpireInMin)})
+            // .cookie('accessToken', token, { expires: new Date(Date.now() + 1000*60* ExpireInMin)})
             .json(
                 {
                     message: "User created successful",
-                    user 
+                    user, 
+                    accessToken : token
                 }
             )
         }
@@ -228,7 +230,11 @@ const addNewExpCat = async (req, res, next) => {
             return next(createError(404, "Category already exist"))
         } 
 
-        findUser.categories.push(category)
+        if(category.length < 4){
+            return next(createError(404, "Category name too short"))
+        }
+
+        findUser.categories.push(category[0].toUpperCase() + category.substring(1))
 
         // send new user on db
         const updateUser = await User.findByIdAndUpdate(id, {categories: findUser.categories}, {new: true});
@@ -257,10 +263,14 @@ const addNewExpCat = async (req, res, next) => {
 }
 
 
+
+
+
 module.exports = {
     registerUser,
     getAllUsers,
     getSingleUser,
     userLogin,
     addNewExpCat,
+
 }

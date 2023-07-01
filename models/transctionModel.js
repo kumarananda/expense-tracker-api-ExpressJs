@@ -22,7 +22,7 @@ const transactionSchema = new mongoose.Schema(
         },
         income_type : {
             type : String,
-            enum: ["Salary", "Bonus", "Overtime", "Others"]
+            enum: ["Salary", "Bonus", "Overtime", "Others","Get Loan"]
         },
         transDate: {
             type : String,
