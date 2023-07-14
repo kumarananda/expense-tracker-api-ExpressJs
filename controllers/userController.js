@@ -118,7 +118,7 @@ const userLogin = async (req, res, next) => {
             .json(
                 {
                     message: "User get successful",
-                    user,
+                    user :{...user, username: user.email},
                     accessToken : token
                 }
             )
